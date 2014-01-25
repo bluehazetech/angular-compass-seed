@@ -1,0 +1,19 @@
+<div class="template">
+    <ul class="menu global">
+        <li><a href="/home.html">Home</a></li>
+        <li><a href="/findadoctor.html">Find a Doctor</a></li>
+    </ul>
+
+    <div class="page">
+        <p>Non-region-specific Home page content.</p>
+
+        <p>{{ controllerDescription }}</p>
+    </div>
+
+    <div class="dynamic">
+        <p>Information about Harrisonburg, VA.</p>
+    </div>
+
+    <ng-include src="'/views/widgets/aspot.html'"></ng-include>
+    <ng-include src="'/views/widgets/grid.html'"></ng-include>
+</div>
