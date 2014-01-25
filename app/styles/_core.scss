@@ -3,9 +3,55 @@
 // Scalable and Modular Architecture for CSS
 // *****************************************************************************
 
-@import "compass"
-@import "1.base"
-@import "2.layout"
-@import "3.module"
-@import "4.state"
-@import "5.theme"
+@import "compass";
+@import "1.base";
+@import "2.layout";
+@import "3.module";
+@import "4.state";
+@import "5.theme";
+
+.container {
+    clear: both;
+
+    // Force images to scale down to their container widths.
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+.container {
+    border: 3px solid #000;
+    margin: 5px;
+    padding: 5px;
+}
+
+.template {
+    border: 3px solid #999;
+    margin: 5px;
+    padding: 5px;
+}
+
+.global {
+    border: 3px solid #00f;
+    margin: 5px;
+    padding: 5px;
+}
+
+.page {
+    border: 3px solid #f00;
+    margin: 5px;
+    padding: 5px;
+}
+
+.dynamic {
+    border: 3px solid #ff0;
+    margin: 5px;
+    padding: 5px;
+}
+
+.widget {
+    border: 3px solid #0f0;
+    margin: 5px;
+    padding: 5px;
+}
