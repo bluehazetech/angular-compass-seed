@@ -2,7 +2,7 @@
   "name": "angular-compass-seed",
   "description": "Angular/Compass Seed",
   "version": "0.0.1",
-  "repository": "",
+  "repository": "git@bitbucket.org:bluehazetech/angular-compass-seed.git",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",

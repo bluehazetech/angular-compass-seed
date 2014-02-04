@@ -29,6 +29,21 @@ module.exports = function (grunt) {
             temp: '.tmp'
         },
 
+        // add vendor prefixed styles
+        autoprefixer: {
+            options: {
+                browsers: ['last 1 version']
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= paths.temp %>/styles/',
+                    src: '{,*/}*.css',
+                    dest: '<%= paths.temp %>/styles/'
+                }]
+            }
+        },
+
         // empty folders to start fresh
         clean: {
             dist: ['<%= paths.dist %>', '<%= paths.temp %>'],
@@ -38,6 +53,7 @@ module.exports = function (grunt) {
         // compile Sass to CSS and generate necessary files if requested
         compass: {
             options: {
+                require: ['compass-h5bp'],
                 sassDir: '<%= paths.app %>/styles',
                 imagesDir: '<%= paths.app %>/images',
                 generatedImagesDir: '<%= paths.temp %>/images/generated',
@@ -50,8 +66,7 @@ module.exports = function (grunt) {
                 httpFontsPath: '/styles/fonts',
                 relativeAssets: false,
                 noLineComments: false,
-                assetCacheBuster: false,
-                raw: 'Sass::Script::Number.precision = 10\n' // Use "raw" if option is not directly available
+                assetCacheBuster: false
             },
             dev: {
                 options: {
@@ -60,7 +75,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 options: {
-                    environment: 'production',
+                    environment: 'production', // minify CSS
                     generatedImagesDir: '<%= paths.dist %>/images/generated'
                 }
             }
@@ -124,11 +139,8 @@ module.exports = function (grunt) {
                         '.htaccess',
                         '*.html',
                         'views/{,*/}*.html',
-                        'bower_components/**/*',
                         'images/{,*/}*.{webp}',
-                        'fonts/*',
-                        'spa/**/*',
-                        'scripts/startSpa.js'
+                        'fonts/*'
                     ],
                     dest: '<%= paths.dist %>'
                 }, {
@@ -145,7 +157,7 @@ module.exports = function (grunt) {
             }
         },
 
-        // The following *-min tasks produce minified files in the dist folder
+        // produce minified image files in the dist folder
         imagemin: {
             dist: {
                 files: [{
@@ -154,31 +166,6 @@ module.exports = function (grunt) {
                     src: '**/*.{png,jpg,jpeg,gif}',
                     dest: '<%= paths.dist %>/images/'
                 }]
-            }
-        },
-        svgmin: {
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= paths.app %>/images/',
-                    src: '**/*.svg',
-                    dest: '<%= paths.dist %>/images/'
-                }]
-            }
-        },
-
-        // allow the use of non-minsafe AngularJS files. automatically makes it
-        // minsafe compatible so Uglify does not destroy the ng references
-        ngmin: {
-            dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= paths.temp %>/concat/scripts',
-                        src: '*.js',
-                        dest: '<%= paths.temp %>/concat/scripts'
-                    }
-                ]
             }
         },
 
@@ -199,6 +186,34 @@ module.exports = function (grunt) {
             ]
         },
 
+        // set Karma test settings
+        karma: {
+            options: {
+                configFile: 'karma.conf.js'
+            },
+            dev: {
+                background: true
+            },
+            test: {
+                singleRun: true
+            }
+        },
+
+        // allow the use of non-minsafe AngularJS files. automatically makes it
+        // minsafe compatible so Uglify does not destroy the ng references
+        ngmin: {
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= paths.temp %>/concat/scripts',
+                        src: '*.js',
+                        dest: '<%= paths.temp %>/concat/scripts'
+                    }
+                ]
+            }
+        },
+
         // rename files for browser caching purposes
         rev: {
             dist: {
@@ -210,6 +225,25 @@ module.exports = function (grunt) {
                         '<%= paths.dist %>/styles/fonts/*'
                     ]
                 }
+            }
+        },
+
+        // set Sass configurations
+        sass: {
+            options: {
+                precision: 10
+            }
+        },
+
+        // produce minified SVG image files in the dist folder
+        svgmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= paths.app %>/images/',
+                    src: '**/*.svg',
+                    dest: '<%= paths.dist %>/images/'
+                }]
             }
         },
 
@@ -230,8 +264,7 @@ module.exports = function (grunt) {
                 assetsDirs: ['<%= paths.dist %>']
             },
             html: [
-                '<%= paths.dist %>/**/*.html',
-                '!<%= paths.dist %>/bower_components/**/*.html'
+                '<%= paths.dist %>/**/*.html'
             ],
             css: ['<%= paths.dist %>/styles/{,*/}*.css']
         },
@@ -246,13 +279,13 @@ module.exports = function (grunt) {
             // clear the terminal window and run jshint on app javascript files
             jshint: {
                 files: ['<%= paths.app %>/scripts/**/*.js'],
-                tasks: ['clear', 'jshint']
+                tasks: ['clear', 'jshint:dev']
             },
 
             // run Jasmine tests when test scripts are changed
             test: {
                 files: ['<%= paths.test %>/spec/**/*.js'],
-                tasks: ['jshint:test', 'karma']
+                tasks: ['clear', 'jshint:test', 'karma:dev:run']
             },
 
             // compile CSS when Sass files are changed
@@ -291,10 +324,21 @@ module.exports = function (grunt) {
             'clear',
             'clean:dev',
             'concurrent:dev',
+            'autoprefixer',
             'connect:dev',
+            'karma:dev:start',
             'watch'
         ]);
     });
+
+    // run test instance and all javascript (jasmine) tests
+    grunt.registerTask('test', [
+        'clear',
+        'clean:dev',
+        'concurrent:test',
+        'connect:test',
+        'karma:test'
+    ]);
 
     // build and deploy production instance
     grunt.registerTask('dist', [
@@ -302,11 +346,21 @@ module.exports = function (grunt) {
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
+        'autoprefixer',
         'concat',
         'ngmin',
         'uglify',
+        'cssmin',
         'copy:dist',
         'rev',
         'usemin'
+    ]);
+
+    // build and deploy production instance; run all javascript (jasmine) tests
+    grunt.registerTask('default', [
+        'clear',
+        'newer:jshint',
+        'test',
+        'dist'
     ]);
 };
