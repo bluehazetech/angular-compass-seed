@@ -1,0 +1,59 @@
+/*------------------------------------*\
+    http://smacss.com/book/type-base
+\*------------------------------------*/
+
+// HTML 5 Boilerplate styles: https://github.com/sporkd/compass-h5bp
+@import "h5bp";
+
+// @include h5bp-normalize;
+@include h5bp-base-styles;
+@include h5bp-chromeframe;
+@include h5bp-helpers;
+@include h5bp-media;
+
+// Typography styles.
+@font-face{
+    font-family:"Open Sans";
+    src:url("../fonts/OpenSans-Regular.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:"Open Sans Bold";
+    src:url("fonts/OpenSans-Bold.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:"Open Sans Italic";
+    src:url("fonts/OpenSans-Italic.ttf") format("truetype");
+}
+
+// Base Elements
+body {
+    font-family: "Open Sans", $fontStack;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+h1 { font-size: $h1FontSize; }
+h2 { font-size: $h2FontSize; }
+h3 { font-size: $h3FontSize; }
+h4 { font-size: $h4FontSize; }
+
+a {
+    color: $blue;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+strong {
+    font-family: "Open Sans Bold", $fontStack;
+    font-weight: normal;
+}
+
+em {
+    font-family: "Open Sans Italic", $fontStack;
+    font-style: normal;
+}

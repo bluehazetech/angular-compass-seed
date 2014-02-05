@@ -21,12 +21,22 @@ module.exports = function (grunt) {
     // Define the configuration for all the tasks
     grunt.initConfig({
 
-        // define project-specific settings (grunt templates)
+        // directory constants (grunt templates)
         paths: {
             app: 'app',
             dist: 'dist',
             test: 'test',
             temp: '.tmp'
+        },
+
+        // glob constants
+        files: {
+            all: '**/*',
+            images: '**/*.{png,gif,jpg,jpeg}',
+            css: '**/*.css',
+            js: 'scripts/**/*.js',
+            html: '**/*.html',
+            scss: 'styles/**/*.scss'
         },
 
         // add vendor prefixed styles
@@ -163,7 +173,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= paths.app %>/images/',
-                    src: '**/*.{png,jpg,jpeg,gif}',
+                    src: '<%= files.images %>',
                     dest: '<%= paths.dist %>/images/'
                 }]
             }

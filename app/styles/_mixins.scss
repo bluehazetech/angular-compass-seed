@@ -1,0 +1,74 @@
+@mixin ir {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+
+    > a {
+        display: block;
+        height: 100%;
+    }
+}
+
+@mixin list-style-none {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+@mixin horizontal-list($spacing) {
+    list-style-type: none;
+    float: left;
+    display: inline-block;
+    margin: 0 $spacing 0 0;
+    padding: 0;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+@mixin horizontal-list-pipes($spacing, $color) {
+    @include horizontal-list(0);
+
+    &:after {
+        content: "|";
+        color: $color;
+        margin: 0 $spacing;
+    }
+    &:last-child {
+        &:after {
+            content: "";
+            margin: 0;
+        }
+    }
+}
+
+@mixin formField($borderRadius) {
+    border: none;
+    padding: 10px;
+    @include border-radius($borderRadius);
+}
+
+@mixin button($borderRadius, $background, $color) {
+    background: $background;
+    color: $color;
+    border: none;
+    text-align: center;
+    @include border-radius($borderRadius);
+}
+
+
+// $bg: sprite-map("sprite/bg/*.png");
+
+// $logo: sprite-map("sprite/logo/*.png");
+
+// $icon-spacing: 25px !default;
+// $icon: sprite-map("sprite/icon/*.png",
+//     $spacing: $icon-spacing
+// );
+
+// $button-spacing: 50px !default;
+// $button: sprite-map("sprite/button/*.png",
+//     $position: 100%,
+//     $spacing: $button-spacing
+// );
