@@ -23,7 +23,8 @@
         "inject"    : false,
         "it"        : false,
         "jasmine"   : false,
-        "spyOn"     : false
+        "spyOn"     : false,
+        "breakpoint": true
     },
 
 
@@ -64,7 +65,7 @@
 
     // Personal styling prefrences.
     "camelcase"     : true,  // Force all variable names to use either camelCase style or UPPER_CASE with underscores.
-    "indent"        : 4,     // Enforces specific tab width for your code.
+    "indent"        : 2,     // Enforces specific tab width for your code.
     "newcap"        : true,  // Require capitalization of all constructor functions e.g. `new F()`.
     "noempty"       : true,  // Prohipit use of empty blocks.
     "nomen"         : false, // Prohibit use of initial or trailing underbars in names.

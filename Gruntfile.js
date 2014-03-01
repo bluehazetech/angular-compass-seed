@@ -1,4 +1,3 @@
-// Generated on 2014-01-10 using generator-angular 0.7.1
 'use strict';
 
 // common globbing patterns
@@ -21,59 +20,34 @@ module.exports = function (grunt) {
     // Define the configuration for all the tasks
     grunt.initConfig({
 
-        // directory constants (grunt templates)
-        paths: {
+        // define project-specific settings (grunt templates)
+        sentara: {
             app: 'app',
             dist: 'dist',
             test: 'test',
             temp: '.tmp'
         },
 
-        // glob constants
-        files: {
-            all: '**/*',
-            images: '**/*.{png,gif,jpg,jpeg}',
-            css: '**/*.css',
-            js: 'scripts/**/*.js',
-            html: '**/*.html',
-            scss: 'styles/**/*.scss'
-        },
-
-        // add vendor prefixed styles
-        autoprefixer: {
-            options: {
-                browsers: ['last 1 version']
-            },
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= paths.temp %>/styles/',
-                    src: '{,*/}*.css',
-                    dest: '<%= paths.temp %>/styles/'
-                }]
-            }
-        },
-
         // empty folders to start fresh
         clean: {
-            dist: ['<%= paths.dist %>', '<%= paths.temp %>'],
-            dev: '<%= paths.temp %>'
+            dist: ['<%= sentara.dist %>', '<%= sentara.temp %>'],
+            dev: '<%= sentara.temp %>',
+            html: '<%= sentara.dist %>/index.html'
         },
 
         // compile Sass to CSS and generate necessary files if requested
         compass: {
             options: {
                 require: ['compass-h5bp'],
-                sassDir: '<%= paths.app %>/styles',
-                imagesDir: '<%= paths.app %>/images',
-                generatedImagesDir: '<%= paths.temp %>/images/generated',
-                javascriptsDir: '<%= paths.app %>/scripts',
-                fontsDir: '<%= paths.app %>/styles/fonts',
-                cssDir: '<%= paths.temp %>/styles',
-                importPath: '<%= paths.app %>/bower_components',
+                sassDir: '<%= sentara.app %>/styles',
+                imagesDir: '<%= sentara.app %>/images',
+                generatedImagesDir: '<%= sentara.temp %>/images/generated',
+                javascriptsDir: '<%= sentara.app %>/scripts',
+                fontsDir: '<%= sentara.app %>/fonts',
+                cssDir: '<%= sentara.temp %>/styles',
                 httpImagesPath: '/images',
                 httpGeneratedImagesPath: '/images/generated',
-                httpFontsPath: '/styles/fonts',
+                httpFontsPath: '/fonts',
                 relativeAssets: false,
                 noLineComments: false,
                 assetCacheBuster: false
@@ -85,8 +59,8 @@ module.exports = function (grunt) {
             },
             dist: {
                 options: {
-                    environment: 'production', // minify CSS
-                    generatedImagesDir: '<%= paths.dist %>/images/generated'
+                    // environment: 'production', // minify CSS
+                    generatedImagesDir: '<%= sentara.dist %>/images/generated'
                 }
             }
         },
@@ -107,6 +81,7 @@ module.exports = function (grunt) {
         // start static web server
         connect: {
             options: {
+                hostname: 'localhost',
                 port: 9000,
                 livereload: 35729
             },
@@ -114,23 +89,23 @@ module.exports = function (grunt) {
                 options: {
                     open: true,
                     base: [
-                        '<%= paths.temp %>',
-                        '<%= paths.app %>'
+                        '<%= sentara.temp %>',
+                        '<%= sentara.app %>'
                     ]
                 }
             },
             dist: {
                 options: {
                     open: true,
-                    base: '<%= paths.dist %>'
+                    base: '<%= sentara.dist %>'
                 }
             },
             test: {
                 options: {
                     port: 9001,
                     base: [
-                        '<%= paths.temp %>',
-                        '<%= paths.app %>',
+                        '<%= sentara.temp %>',
+                        '<%= sentara.app %>',
                         'test'
                     ]
                 }
@@ -143,26 +118,25 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: '<%= paths.app %>/',
+                    cwd: '<%= sentara.app %>/',
                     src: [
                         '*.{ico,png,txt}',
-                        '.htaccess',
                         '*.html',
-                        'views/{,*/}*.html',
+                        'partials/**/*.html',
                         'images/{,*/}*.{webp}',
                         'fonts/*'
                     ],
-                    dest: '<%= paths.dist %>'
+                    dest: '<%= sentara.dist %>'
                 }, {
                     expand: true,
-                    cwd: '<%= paths.temp %>/images/generated/',
+                    cwd: '<%= sentara.temp %>/images/generated/',
                     src: ['**'],
-                    dest: '<%= paths.dist %>/images/'
+                    dest: '<%= sentara.dist %>/images/'
                 }, {
                     expand: true,
-                    cwd: '<%= paths.temp %>/styles/',
+                    cwd: '<%= sentara.temp %>/styles/',
                     src: ['**'],
-                    dest: '<%= paths.dist %>/styles/'
+                    dest: '<%= sentara.dist %>/styles/'
                 }]
             }
         },
@@ -172,9 +146,9 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= paths.app %>/images/',
-                    src: '<%= files.images %>',
-                    dest: '<%= paths.dist %>/images/'
+                    cwd: '<%= sentara.app %>/images/',
+                    src: '**/*.{png,jpg,jpeg,gif}',
+                    dest: '<%= sentara.dist %>/images/'
                 }]
             }
         },
@@ -186,20 +160,20 @@ module.exports = function (grunt) {
                 reporter: require('jshint-stylish')
             },
             dev: [
-                '<%= paths.app %>/scripts/**/*.js'
+                '<%= sentara.app %>/scripts/**/*.js'
             ],
             gruntfile: [
                 'Gruntfile.js'
             ],
             test: [
-                '<%= paths.test %>/spec/**/*.js'
+                '<%= sentara.test %>/spec/**/*.js'
             ]
         },
 
         // set Karma test settings
         karma: {
             options: {
-                configFile: 'karma.conf.js'
+                configFile: 'config/karma.conf.js'
             },
             dev: {
                 background: true
@@ -216,9 +190,9 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= paths.temp %>/concat/scripts',
+                        cwd: '<%= sentara.temp %>/concat/scripts',
                         src: '*.js',
-                        dest: '<%= paths.temp %>/concat/scripts'
+                        dest: '<%= sentara.temp %>/concat/scripts'
                     }
                 ]
             }
@@ -229,10 +203,9 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     src: [
-                        '<%= paths.dist %>/scripts/{,*/}*.js',
-                        '<%= paths.dist %>/styles/{,*/}*.css',
-                        '<%= paths.dist %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
-                        '<%= paths.dist %>/styles/fonts/*'
+                        '<%= sentara.dist %>/scripts/{,*/}*.js',
+                        '<%= sentara.dist %>/styles/{,*/}*.css',
+                        '<%= sentara.dist %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                     ]
                 }
             }
@@ -250,9 +223,9 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= paths.app %>/images/',
+                    cwd: '<%= sentara.app %>/images/',
                     src: '**/*.svg',
-                    dest: '<%= paths.dist %>/images/'
+                    dest: '<%= sentara.dist %>/images/'
                 }]
             }
         },
@@ -262,21 +235,21 @@ module.exports = function (grunt) {
         // additional tasks can operate on them
         useminPrepare: {
             options: {
-                root: '<%= paths.app %>',
-                dest: '<%= paths.dist %>'
+                root: '<%= sentara.app %>',
+                dest: '<%= sentara.dist %>'
             },
-            html: '<%= paths.app %>/**/*.html'
+            html: '<%= sentara.app %>/**/*.html'
         },
 
         // perform rewrites based on rev and the useminPrepare configuration
         usemin: {
             options: {
-                assetsDirs: ['<%= paths.dist %>']
+                assetsDirs: ['<%= sentara.dist %>']
             },
             html: [
-                '<%= paths.dist %>/**/*.html'
+                '<%= sentara.dist %>/**/*.html'
             ],
-            css: ['<%= paths.dist %>/styles/{,*/}*.css']
+            css: ['<%= sentara.dist %>/styles/{,*/}*.css']
         },
 
         // watch files for changes and run tasks based on the changed files
@@ -288,19 +261,19 @@ module.exports = function (grunt) {
 
             // clear the terminal window and run jshint on app javascript files
             jshint: {
-                files: ['<%= paths.app %>/scripts/**/*.js'],
+                files: ['<%= sentara.app %>/scripts/**/*.js'],
                 tasks: ['clear', 'jshint:dev']
             },
 
             // run Jasmine tests when test scripts are changed
             test: {
-                files: ['<%= paths.test %>/spec/**/*.js'],
+                files: ['<%= sentara.test %>/spec/**/*.js', '<%= sentara.app %>/scripts/**/*.js'],
                 tasks: ['clear', 'jshint:test', 'karma:dev:run']
             },
 
             // compile CSS when Sass files are changed
             compass: {
-                files: ['<%= paths.app %>/styles/**/*.{scss,sass}'],
+                files: ['<%= sentara.app %>/styles/**/*.{scss,sass}'],
                 tasks: ['compass:dev']
             },
 
@@ -313,10 +286,10 @@ module.exports = function (grunt) {
             // reload the browser when changes are made
             livereload: {
                 files: [
-                    '<%= paths.app %>/**/*.html',
-                    '<%= paths.app %>/scripts/**/*.js',
-                    '<%= paths.temp %>/styles/{,*/}*.css',
-                    '<%= paths.app %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                    '<%= sentara.app %>/**/*.html',
+                    '<%= sentara.app %>/scripts/**/*.js',
+                    '<%= sentara.temp %>/styles/{,*/}*.css',
+                    '<%= sentara.app %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
         }
@@ -334,7 +307,6 @@ module.exports = function (grunt) {
             'clear',
             'clean:dev',
             'concurrent:dev',
-            'autoprefixer',
             'connect:dev',
             'karma:dev:start',
             'watch'
@@ -356,14 +328,14 @@ module.exports = function (grunt) {
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
-        'autoprefixer',
         'concat',
         'ngmin',
         'uglify',
-        'cssmin',
+        // 'cssmin',
         'copy:dist',
         'rev',
-        'usemin'
+        'usemin',
+        'clean:html'
     ]);
 
     // build and deploy production instance; run all javascript (jasmine) tests

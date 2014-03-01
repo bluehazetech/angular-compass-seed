@@ -19,16 +19,3 @@
 @import "3.module";
 @import "4.state";
 @import "5.theme";
-
-/*------------------------------------*\
-    TODO: move to appropriate files
-\*------------------------------------*/
-.container {
-    clear: both;
-
-    // Force images to scale down to their container widths.
-    img {
-        max-width: 100%;
-        height: auto;
-    }
-}

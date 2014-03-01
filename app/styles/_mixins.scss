@@ -1,3 +1,31 @@
+@function strip-units($number) {
+    @return $number / ($number * 0 + 1);
+}
+
+@mixin font-size($size: 16, $line: 1.5) {
+    font-size: $size + px;
+    font-size: ($size / 10) + rem;
+    @if unitless($line) {
+        line-height: $line;
+    } @else {
+        line-height: strip-units($line / $size);
+    }
+}
+
+@mixin font-family($fontFamily) {
+    font-weight: normal;
+
+    @if $fontFamily == OpenSans {
+        font-family: "Open Sans", $fontStack;
+    } @else if $fontFamily == OpenSansBold {
+        font-family: "Open Sans Bold", $fontStack;
+    } @else if $fontFamily == OpenSansItalic {
+        font-family: "Open Sans Italic", $fontStack;
+    } @else if $fontFamily == OpenSansLight {
+        font-family: "Open Sans Light", $fontStack;
+    }
+}
+
 @mixin ir {
     text-indent: 100%;
     white-space: nowrap;
@@ -7,6 +35,23 @@
         display: block;
         height: 100%;
     }
+}
+
+@mixin ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin row {
+    letter-spacing: -0.31em; /* Webkit: collapse white-space between units */
+    *letter-spacing: normal; /* reset IE < 8 */
+    *word-spacing: -0.43em; /* IE < 8: collapse white-space between units */
+}
+
+@mixin column {
+    letter-spacing: normal;
+    word-spacing: normal;
 }
 
 @mixin list-style-none {
@@ -43,32 +88,18 @@
     }
 }
 
-@mixin formField($borderRadius) {
-    border: none;
-    padding: 10px;
-    @include border-radius($borderRadius);
-}
-
-@mixin button($borderRadius, $background, $color) {
-    background: $background;
-    color: $color;
-    border: none;
-    text-align: center;
-    @include border-radius($borderRadius);
-}
-
-
 // $bg: sprite-map("sprite/bg/*.png");
 
 // $logo: sprite-map("sprite/logo/*.png");
 
-// $icon-spacing: 25px !default;
+// $icon-spacing: 100px !default;
 // $icon: sprite-map("sprite/icon/*.png",
+//     $position: 100%,
 //     $spacing: $icon-spacing
 // );
 
 // $button-spacing: 50px !default;
-// $button: sprite-map("sprite/button/*.png",
+// $button: sprite-map("sprite/btn/*.png",
 //     $position: 100%,
 //     $spacing: $button-spacing
 // );

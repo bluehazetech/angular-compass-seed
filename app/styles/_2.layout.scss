@@ -2,20 +2,9 @@
     http://smacss.com/book/type-layout
 \*------------------------------------*/
 
-header {
-
-    @media (min-width: $break-mobile) {
-    }
-
-    @media (min-width: $break-tablet) {
-    }
-}
-
-footer {
-
-    @media (min-width: $break-mobile) {
-    }
-
-    @media (min-width: $break-tablet) {
-    }
+// elements that require animations need to remain visible during the animation
+// since the .ng-hide class is already on the element while it is being hidden.
+.animate.ng-hide-add,
+.animate.ng-hide-remove {
+    display: block !important;
 }
