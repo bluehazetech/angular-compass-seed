@@ -1,25 +1,25 @@
 'use strict';
 
-angular.module('angularApp', [
-    'ngCookies',
-    'ngResource',
-    'ngSanitize',
-    'ngRoute'
-])
-    .config(function ($routeProvider) {
-        // home page
-        $routeProvider
-            .when('/', {
-                templateUrl: '/views/home.html',
-                controller: 'ViewController'
-            })
 
-            .when('/home', {redirectTo:'/'})
+// Declare app level module which depends on filters, and services
+angular.module('myApp', [
+  'ngCookies',
+  'ngResource',
+  'ngSanitize',
+  'ngRoute',
+  'ngAnimate'
+]).
 
-            .when('/:path*', {
-                templateUrl: function (url) {
-                    return '/views/' + url.path + '.html';
-                },
-                controller: 'ViewController'
-            });
-    });
+config(['$routeProvider', function($routeProvider) {
+  $routeProvider.when('/view1', {
+    templateUrl: 'partials/partial1.html',
+    controller: 'MyCtrl1'
+  });
+
+  $routeProvider.when('/view2', {
+    templateUrl: 'partials/partial2.html',
+    controller: 'MyCtrl2'
+  });
+
+  $routeProvider.otherwise({redirectTo: '/view1'});
+}]);

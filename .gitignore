@@ -1,9 +1,11 @@
-node_modules
+!.gitkeep
+bin
 dist
+logs/*
+node_modules/
+tmp
 .DS_Store
+.idea
 .sass-cache
 .tmp
-*.sublime-*
-*.bak.*
-app/bower_components
 Gemfile.lock
