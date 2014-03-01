@@ -74,6 +74,7 @@ Requires a webserver, node.js + `./scripts/web-server.js` or your backend server
 * [Grunt](http://gruntjs.com/)
 * [Karma](http://karma-runner.github.io/0.10/index.html)
 * [Jasmine](https://github.com/pivotal/jasmine)
+* [Protractor](https://github.com/angular/protractor)
 
 
 ## Directory Layout
