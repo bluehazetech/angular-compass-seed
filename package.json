@@ -1,7 +1,7 @@
 {
-  "name": "bluehazetech-portfolio",
-  "description": "Portfolio for Brian M Turgeon - bluehazetech",
-  "repository": "git@bitbucket.org:bluehazetech/portfolio.git",
+  "name": "angular-compass-seed",
+  "description": "AngularJS/Compass Seed Project",
+  "repository": "git@bitbucket.org:bluehazetech/angular-compass-seed.git",
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-clear": "~0.2.1",
