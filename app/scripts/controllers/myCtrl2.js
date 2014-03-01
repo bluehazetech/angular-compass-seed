@@ -1,6 +1,5 @@
 'use strict';
 
-angular.module('myApp').
-
-controller('MyCtrl2', [function() {
-}]);
+angular.module('myApp')
+  .controller('MyCtrl2', [function() {
+  }]);
