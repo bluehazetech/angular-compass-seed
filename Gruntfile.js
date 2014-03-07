@@ -80,7 +80,6 @@ module.exports = function (grunt) {
         // start static web server
         connect: {
             options: {
-                hostname: 'localhost',
                 port: 9000,
                 livereload: 35729
             },
